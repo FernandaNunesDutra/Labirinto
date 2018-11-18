@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 
 public class Labirinto {
 
@@ -61,7 +60,14 @@ public class Labirinto {
         o.addAresta(j);
         o.addAresta(r);
 
-        BuscaProfundidade.inicia(a,d);
+        Busca busca = new BuscaLargura(a,d);
+        busca.inicia();
+        busca.caminho();
+        busca.numeroVisitados();
+        busca.nosVisitados();
+        busca.numeroAbertos();
+        busca.nosAbertos();
+        busca.tempoExecucao();
     }
 
 }

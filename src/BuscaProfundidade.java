@@ -1,36 +1,30 @@
 import java.util.*;
 
-public class BuscaProfundidade {
+public class BuscaProfundidade extends Busca {
 
-    private static Map<String, No> visitados = new HashMap<>();
-    private static Stack<No> pilha = new Stack<>();
-    private static Stack<No> pilha2 = new Stack<>();
-    private static No objetivo;
+    private Stack<No> pilha = new Stack<>();
 
-    static void inicia(No inicial, No objetivo){
-
-        BuscaProfundidade.objetivo = objetivo;
-        pilha2.push(inicial);
-        pilha.push(inicial);
-
-        if(busca(inicial)){
-            System.out.println("Caminho encontrado.");
-        }else {
-            System.out.println("Caminho não encontrado.");
-        }
+    BuscaProfundidade(No inicial, No objetivo) {
+        super(inicial, objetivo);
     }
 
-    private static boolean busca(No atual){
+    @Override
+    protected void inicia(){
+        pilha.push(inicial);
+        super.inicia();
+    }
+
+    @Override
+    protected boolean busca(No atual){
 
         if(atual == null)
             return false;
 
-        System.out.println(atual.getId());
-
-        if(atual == objetivo)
+        if(atual == objetivo) {
             return true;
+        }
 
-        visitados.put(atual.getId(), atual);
+        abertos.add(atual.getId());
         empilha(atual);
 
         atual = buscaProximo();
@@ -38,30 +32,32 @@ public class BuscaProfundidade {
         return busca(atual);
     }
 
-    private static No buscaProximo(){
-        while(!pilha.isEmpty()){
-            No proximo = pilha.pop();
-
-            if(!visitados.containsKey(proximo.getId()))
-                return proximo;
-        }
-
-        return null;
+    @Override
+    protected void caminho() {
+        System.out.println("Caminho:");
+        System.out.println(pilha);
     }
 
-    private static void empilha(No atual){
+    private No buscaProximo(){
+        if (pilha.isEmpty())
+            return null;
 
-        Map<String, No> adjacentes = new TreeMap(Collections.reverseOrder());
+        return pilha.pop();
+    }
+
+    private void empilha(No atual){
+
+        Map<String, No> adjacentes = new TreeMap<>(Collections.reverseOrder());
         adjacentes.putAll(atual.getArestas());
 
         for(Map.Entry<String,No> entry : adjacentes.entrySet()) {
 
             boolean empilhado = pilha.search(entry.getKey()) != -1;
-            boolean visitado = visitados.containsKey(entry.getKey());
+            boolean aberto = abertos.contains(entry.getKey());
 
-            if(!empilhado && !visitado){
+            if(!empilhado && !aberto){
                 pilha.push(entry.getValue());
-                pilha2.push(entry.getValue());
+                visitados.add(entry.getKey());
             }
         }
     }

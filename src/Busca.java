@@ -1,0 +1,58 @@
+import java.util.HashSet;
+import java.util.Set;
+
+public abstract  class Busca {
+
+    private long inicio;
+    private long fim;
+
+    Set<String> visitados = new HashSet<>();
+    Set<String> abertos = new HashSet<>();
+    No objetivo;
+    No inicial;
+
+    Busca(No inicial, No objetivo) {
+        this.objetivo = objetivo;
+        this.inicial = inicial;
+    }
+
+    protected void inicia(){
+
+        inicio = System.currentTimeMillis();
+
+        if(busca(inicial)){
+            System.out.println("Caminho encontrado.");
+        }else {
+            System.out.println("Caminho não encontrado.");
+        }
+
+        fim = System.currentTimeMillis();
+    }
+
+    void tempoExecucao(){
+        System.out.printf("\nTempo execucao: %dms", fim - inicio);
+    }
+
+    void numeroVisitados(){
+        System.out.printf("\nNúmero de visitados: %d", visitados.size());
+    }
+
+    void nosVisitados(){
+        System.out.println("\nVisitados: ");
+        System.out.print(visitados);
+    }
+
+    void numeroAbertos(){
+        System.out.printf("\nNúmero de abertos: %d", abertos.size());
+    }
+
+    void nosAbertos(){
+        System.out.println("\nAbertos: ");
+        System.out.print(abertos);
+    }
+
+    protected abstract boolean busca(No atual);
+
+    protected abstract void caminho();
+
+}
