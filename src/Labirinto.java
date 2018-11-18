@@ -29,7 +29,7 @@ public class Labirinto {
         b.addAresta(a);
         b.addAresta(c);
         c.addAresta(b);
-        d.addAresta(d);
+        c.addAresta(d);
         d.addAresta(c);
         d.addAresta(h);
         e.addAresta(a);
@@ -48,11 +48,11 @@ public class Labirinto {
         j.addAresta(o);
         l.addAresta(g);
         l.addAresta(j);
-        //l.addAresta(m);
-        //m.addAresta(l);
+        l.addAresta(m);
+        m.addAresta(l);
         m.addAresta(q);
         n.addAresta(i);
-        //q.addAresta(m);
+        q.addAresta(m);
         q.addAresta(p);
         p.addAresta(s);
         p.addAresta(o);
@@ -61,7 +61,7 @@ public class Labirinto {
         o.addAresta(j);
         o.addAresta(r);
 
-        Backtracking.inicia(j, m);
+        BuscaProfundidade.inicia(a,d);
     }
 
 }

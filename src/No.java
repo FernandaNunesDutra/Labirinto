@@ -10,7 +10,7 @@ public class No {
     public No(String id, int peso) {
         this.id = id;
         this.peso = peso;
-        arestas = new HashMap<String, No>();
+        arestas = new HashMap<>();
     }
 
     public No(String id, int peso, Map<String, No> arestas) {
