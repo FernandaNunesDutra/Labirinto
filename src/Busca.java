@@ -51,6 +51,14 @@ public abstract  class Busca {
         System.out.print(abertos);
     }
 
+    double heuristica(No noInicial, No noFinal){
+        double distanciaX = Math.pow(noFinal.getX() - noInicial.getX(), 2);
+        double distanciaY = Math.pow(noFinal.getY() - noInicial.getY(), 2);
+        double euclideana = Math.sqrt(distanciaX + distanciaY);
+
+        return euclideana;
+    }
+
     protected abstract boolean busca(No atual);
 
     protected abstract void caminho();

@@ -4,23 +4,25 @@ import java.util.Objects;
 
 public class No {
 
+    private int x;
+    private int y;
     private String id;
     private int peso;
     private Map<String, No> arestas;
 
-    public No(String id, int peso) {
+    No(String id, int x, int y) {
+        this.x = x;
+        this.y = y;
         this.id = id;
-        this.peso = peso;
         arestas = new HashMap<>();
     }
 
-    public No(String id, int peso, Map<String, No> arestas) {
+    No(String id) {
         this.id = id;
-        this.peso = peso;
-        this.arestas = arestas;
+        arestas = new HashMap<>();
     }
 
-    public String getId() {
+    String getId() {
         return id;
     }
 
@@ -28,13 +30,17 @@ public class No {
         return peso;
     }
 
-    public Map<String, No> getArestas() {
+    Map<String, No> getArestas() {
         return arestas;
     }
 
-    public void addAresta(No no){
+    void addAresta(No no){
         arestas.put(no.getId(), no);
     }
+
+    public int getX() { return x; }
+
+    public int getY() { return y; }
 
     @Override
     public boolean equals(Object o) {

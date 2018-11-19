@@ -1,73 +1,51 @@
+import java.util.*;
 
 public class Labirinto {
 
     public static void main(String[] args) {
 
-        No a = new No("A", 1);
-        No b = new No("B", 1);
-        No c = new No("C", 1);
-        No d = new No("D", 1);
-        No e = new No("E", 1);
-        No f = new No("F", 1);
-        No g = new No("G", 1);
-        No h = new No("H", 1);
-        No i = new No("I", 1);
-        No j = new No("J", 1);
-        No k = new No("K", 1);
-        No l = new No("L", 1);
-        No m = new No("M", 1);
-        No n = new No("N", 1);
-        No o = new No("O", 1);
-        No p = new No("P", 1);
-        No q = new No("Q", 1);
-        No r = new No("R", 1);
-        No s = new No("S", 1);
+        int DIMENSAO = 30;
 
-        a.addAresta(b);
-        a.addAresta(e);
-        b.addAresta(a);
-        b.addAresta(c);
-        c.addAresta(b);
-        c.addAresta(d);
-        d.addAresta(c);
-        d.addAresta(h);
-        e.addAresta(a);
-        e.addAresta(i);
-        f.addAresta(g);
-        f.addAresta(j);
-        g.addAresta(f);
-        g.addAresta(h);
-        h.addAresta(d);
-        h.addAresta(g);
-        i.addAresta(e);
-        i.addAresta(n);
-        i.addAresta(j);
-        j.addAresta(f);
-        j.addAresta(l);
-        j.addAresta(o);
-        l.addAresta(g);
-        l.addAresta(j);
-        l.addAresta(m);
-        m.addAresta(l);
-        m.addAresta(q);
-        n.addAresta(i);
-        q.addAresta(m);
-        q.addAresta(p);
-        p.addAresta(s);
-        p.addAresta(o);
-        p.addAresta(q);
-        o.addAresta(p);
-        o.addAresta(j);
-        o.addAresta(r);
+        Random random = new Random(101);
+        No[][] labirinto = new No[10][6];
+        List<No> nos = new ArrayList<>();
 
-        Busca busca = new BuscaLargura(a,d);
-        busca.inicia();
-        busca.caminho();
-        busca.numeroVisitados();
-        busca.nosVisitados();
-        busca.numeroAbertos();
-        busca.nosAbertos();
-        busca.tempoExecucao();
+        String id ="A";
+        for(int i=0; i<10; i++){
+            for(int j=0; j<6; j++){
+                labirinto[i][j] = new No(id, i, j);
+                id = id + 1;
+            }
+        }
+
+        for(int i=0; i<10; i++){
+            for(int j=0; j<6; j++) {
+
+                int r1 = random.nextInt();
+                int r2 = random.nextInt();
+
+                if (i < 10 && r1 < 80) {
+                    labirinto[i][j].addAresta(labirinto[i + 1][j]);
+                    labirinto[i + 1][j].addAresta(labirinto[i][j]);
+                }
+
+                if (j < 6 && r2 < 80) {
+                    labirinto[i][j].addAresta(labirinto[i][j + 1]);
+                    labirinto[i][j + 1].addAresta(labirinto[i][j]);
+
+                }
+            }
+        }
+
+
+//        Busca busca = new BuscaLargura(a,d);
+//        busca.inicia();
+//        busca.caminho();
+//        busca.numeroVisitados();
+//        busca.nosVisitados();
+//        busca.numeroAbertos();
+//        busca.nosAbertos();
+//        busca.tempoExecucao();
     }
 
 }
