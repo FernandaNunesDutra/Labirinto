@@ -1,51 +1,54 @@
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class Labirinto {
 
-    public static void main(String[] args) {
+    private static int DIMENSAOX = 10;
+    private static int DIMENSAOY = 6;
+    private static int RANDOM = 101;
+    private static String id = "A";
+    private static No[][] labirinto;
 
-        int DIMENSAO = 30;
+    public static No[][] montaLabirinto() {
 
-        Random random = new Random(101);
-        No[][] labirinto = new No[10][6];
-        List<No> nos = new ArrayList<>();
+        Random random = new Random(RANDOM);
+        labirinto = new No[DIMENSAOX][DIMENSAOY];
 
-        String id ="A";
-        for(int i=0; i<10; i++){
-            for(int j=0; j<6; j++){
+        for (int i = 0; i < DIMENSAOX; i++) {
+            for (int j = 0; j < DIMENSAOY; j++) {
                 labirinto[i][j] = new No(id, i, j);
                 id = id + 1;
             }
         }
 
-        for(int i=0; i<10; i++){
-            for(int j=0; j<6; j++) {
+        for (int i = 0; i < DIMENSAOX; i++) {
+            for (int j = 0; j < DIMENSAOY; j++) {
 
-                int r1 = random.nextInt();
-                int r2 = random.nextInt();
+                No no = labirinto[i][j];
 
-                if (i < 10 && r1 < 80) {
-                    labirinto[i][j].addAresta(labirinto[i + 1][j]);
+                if (adiciona(i, DIMENSAOX)) {
+                    no.addAresta(labirinto[i + 1][j]);
                     labirinto[i + 1][j].addAresta(labirinto[i][j]);
                 }
 
-                if (j < 6 && r2 < 80) {
-                    labirinto[i][j].addAresta(labirinto[i][j + 1]);
+                if (adiciona(j, DIMENSAOY)) {
+                    no.addAresta(labirinto[i][j + 1]);
                     labirinto[i][j + 1].addAresta(labirinto[i][j]);
 
                 }
             }
         }
 
-
-//        Busca busca = new BuscaLargura(a,d);
-//        busca.inicia();
-//        busca.caminho();
-//        busca.numeroVisitados();
-//        busca.nosVisitados();
-//        busca.numeroAbertos();
-//        busca.nosAbertos();
-//        busca.tempoExecucao();
+        return labirinto;
     }
+
+    private static boolean adiciona(int index, int max){
+        Random random = new Random(RANDOM);
+        int numero = random.nextInt();
+
+        return numero < 85 && index < max;
+    }
+
 
 }
