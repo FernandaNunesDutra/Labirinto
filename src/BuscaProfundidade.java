@@ -3,7 +3,7 @@ import java.util.*;
 public class BuscaProfundidade extends Busca {
 
     private Stack<No> pilha = new Stack<>();
-
+    int empilhados;
     BuscaProfundidade(No inicial, No objetivo) {
         super(inicial, objetivo);
     }
@@ -20,7 +20,7 @@ public class BuscaProfundidade extends Busca {
         if(atual == null)
             return false;
 
-        if(atual == objetivo) {
+        if(atual.getId() == objetivo.getId()) {
             return true;
         }
 
@@ -50,12 +50,15 @@ public class BuscaProfundidade extends Busca {
         Map<String, No> adjacentes = new TreeMap<>(Collections.reverseOrder());
         adjacentes.putAll(atual.getArestas());
 
+        System.out.println(empilhados);
+
         for(Map.Entry<String,No> entry : adjacentes.entrySet()) {
 
             boolean empilhado = pilha.search(entry.getKey()) != -1;
             boolean aberto = abertos.contains(entry.getKey());
 
             if(!empilhado && !aberto){
+                empilhados++;
                 pilha.push(entry.getValue());
                 visitados.add(entry.getKey());
             }

@@ -21,9 +21,9 @@ public abstract  class Busca {
         inicio = System.currentTimeMillis();
 
         if(busca(inicial)){
-            System.out.println("Caminho encontrado.");
+            System.out.println("\nCaminho encontrado.");
         }else {
-            System.out.println("Caminho não encontrado.");
+            System.out.println("\nCaminho não encontrado.");
         }
 
         fim = System.currentTimeMillis();
@@ -57,6 +57,14 @@ public abstract  class Busca {
         double euclideana = Math.sqrt(distanciaX + distanciaY);
 
         return euclideana;
+    }
+
+    void getInicial(){
+        System.out.printf("\nInício: %s", inicial.getId());
+    }
+
+    void getFinal(){
+        System.out.printf("\nFim: %s", objetivo.getId());
     }
 
     protected abstract boolean busca(No atual);
