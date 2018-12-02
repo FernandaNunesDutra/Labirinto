@@ -1,4 +1,10 @@
-public class BuscaIDAEstrela extends Busca {
+import java.util.Map;
+import java.util.Stack;
+import java.util.TreeMap;
+
+class BuscaIDAEstrela extends Busca{
+
+
     BuscaIDAEstrela(No inicial, No objetivo) {
         super(inicial, objetivo);
     }

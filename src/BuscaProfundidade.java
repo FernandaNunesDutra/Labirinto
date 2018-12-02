@@ -3,9 +3,14 @@ import java.util.*;
 public class BuscaProfundidade extends Busca {
 
     private Stack<No> pilha = new Stack<>();
-    int empilhados;
-    BuscaProfundidade(No inicial, No objetivo) {
+    private int profundidade;
+    private int profundidadeAtual;
+
+
+    BuscaProfundidade(No inicial, No objetivo, int profundidade) {
         super(inicial, objetivo);
+        this.profundidadeAtual = 0;
+        this.profundidade = profundidade;
     }
 
     @Override
@@ -17,19 +22,20 @@ public class BuscaProfundidade extends Busca {
     @Override
     protected boolean busca(No atual){
 
-        if(atual == null)
-            return false;
+        while (true){
+            if(atual == null)
+                return false;
 
-        if(atual.getId() == objetivo.getId()) {
-            return true;
+            if(atual.getId() == objetivo.getId()) {
+                return true;
+            }
+
+            visitados.add(atual.getId());
+            empilha(atual);
+
+            atual = buscaProximo();
+
         }
-
-        abertos.add(atual.getId());
-        empilha(atual);
-
-        atual = buscaProximo();
-
-        return busca(atual);
     }
 
     @Override
@@ -42,15 +48,22 @@ public class BuscaProfundidade extends Busca {
         if (pilha.isEmpty())
             return null;
 
-        return pilha.pop();
+        No no = pilha.pop();
+        if(visitados.contains(no.getId())){
+            profundidadeAtual--;
+        }
+
+        return no;
     }
 
     private void empilha(No atual){
 
+        if(profundidadeAtual == profundidade)
+            return;
+
         Map<String, No> adjacentes = new TreeMap<>(Collections.reverseOrder());
         adjacentes.putAll(atual.getArestas());
-
-        System.out.println(empilhados);
+        profundidadeAtual++;
 
         for(Map.Entry<String,No> entry : adjacentes.entrySet()) {
 
@@ -58,9 +71,8 @@ public class BuscaProfundidade extends Busca {
             boolean aberto = abertos.contains(entry.getKey());
 
             if(!empilhado && !aberto){
-                empilhados++;
                 pilha.push(entry.getValue());
-                visitados.add(entry.getKey());
+                abertos.add(entry.getKey());
             }
         }
     }

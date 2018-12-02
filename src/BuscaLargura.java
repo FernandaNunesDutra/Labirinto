@@ -11,18 +11,19 @@ public class BuscaLargura extends Busca {
 
     @Override
     protected boolean busca(No atual) {
+        while (true) {
+            if (atual == null)
+                return false;
 
-        if (atual == null)
-            return false;
+            visitados.add(atual.getId());
 
-        abertos.add(atual.getId());
+            if (atual == objetivo)
+                return true;
 
-        if (atual == objetivo)
-            return true;
+            enfileirar(atual);
 
-        enfileirar(atual);
-
-        return busca(buscaProximo());
+            atual = buscaProximo();
+        }
     }
 
     @Override
@@ -51,12 +52,12 @@ public class BuscaLargura extends Busca {
 
         for (Map.Entry<String, No> entry : adjacentes.entrySet()) {
 
-            boolean empilhado = fila.contains(entry.getValue());
+            boolean enfileirado = fila.contains(entry.getValue());
             boolean aberto = abertos.contains(entry.getKey());
 
-            if (!empilhado && !aberto) {
+            if (!enfileirado && !aberto) {
                 fila.add(entry.getValue());
-                visitados.add(entry.getKey());
+                abertos.add(entry.getKey());
                 pais.put(entry.getKey(), atual.getId());
             }
         }
