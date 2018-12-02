@@ -2,19 +2,25 @@ import java.util.*;
 
 public class BuscaAEstrela extends Busca {
 
+
+    private int patamarMaximo, patamarAtual;
     private Map<No, Double> heuristica = new HashMap<>();
     private Map<String, Double> pesoCaminho = new HashMap<>();
 
-    BuscaAEstrela(No inicial, No objetivo) {
+    BuscaAEstrela(No inicial, No objetivo, int patamar) {
         super(inicial, objetivo);
+
+        patamarAtual = 1;
+        patamarMaximo = patamar;
         pesoCaminho.put(inicial.getId(), 0.0);
     }
+
 
     @Override
     protected boolean busca(No atual) {
         while (true) {
 
-            if (atual == null)
+            if (atual == null || patamarAtual > patamarMaximo)
                 return false;
 
             if(atual == objetivo)
@@ -54,16 +60,21 @@ public class BuscaAEstrela extends Busca {
     }
 
     private void enfileirar(No atual) {
-        for (Map.Entry<String, No> entry : atual.getArestas().entrySet()) {
-            boolean aberto = abertos.contains(entry.getKey());
 
-            if (!aberto) {
-                Double totalCaminho = pesoCaminho.get(atual.getId()) + 1;
-                Double totalHeuristica = heuristica(atual, objetivo) + totalCaminho;
+        if(!atual.getArestas().isEmpty()){
+            patamarAtual++;
 
-                pesoCaminho.put(entry.getValue().getId(), totalCaminho);
-                heuristica.put(entry.getValue(), round(totalHeuristica, 2));
-                abertos.add(entry.getKey());
+            for (Map.Entry<String, No> entry : atual.getArestas().entrySet()) {
+                boolean aberto = abertos.contains(entry.getKey());
+
+                if (!aberto) {
+                    Double totalCaminho = pesoCaminho.get(atual.getId()) + 1;
+                    Double totalHeuristica = heuristica(atual, objetivo) + totalCaminho;
+
+                    pesoCaminho.put(entry.getValue().getId(), totalCaminho);
+                    heuristica.put(entry.getValue(), round(totalHeuristica, 2));
+                    abertos.add(entry.getKey());
+                }
             }
         }
     }

@@ -38,10 +38,9 @@ class Labirinto {
     }
 
     private static boolean adiciona(int index, int max){
-        Random random = new Random(RANDOM);
-        int numero = random.nextInt();
+        double numero = Math.random() * RANDOM;
 
-        return numero < 85 && index < max ;
+        return numero < 95 && index < max ;
     }
 
 

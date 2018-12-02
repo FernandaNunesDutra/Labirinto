@@ -7,7 +7,7 @@ public class Main {
         No inicio = labirinto[0][0];
         No fim = labirinto[499][499];
 
-        Busca busca = new BuscaAEstrela(inicio, fim);
+        Busca busca = new BuscaAEstrela(inicio, fim, Integer.MAX_VALUE);
         busca.getInicial();
         busca.getFinal();
         busca.inicia();
