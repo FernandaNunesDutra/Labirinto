@@ -3,15 +3,12 @@ import java.util.*;
 public class BuscaAEstrela extends Busca {
 
 
-    private int patamarMaximo, patamarAtual;
     private Map<No, Double> heuristica = new HashMap<>();
     private Map<String, Double> pesoCaminho = new HashMap<>();
 
     BuscaAEstrela(No inicial, No objetivo, int patamar) {
         super(inicial, objetivo);
 
-        patamarAtual = 1;
-        patamarMaximo = patamar;
         pesoCaminho.put(inicial.getId(), 0.0);
     }
 
@@ -20,7 +17,7 @@ public class BuscaAEstrela extends Busca {
     protected boolean busca(No atual) {
         while (true) {
 
-            if (atual == null || patamarAtual > patamarMaximo)
+            if (atual == null)
                 return false;
 
             if(atual == objetivo)
@@ -30,7 +27,7 @@ public class BuscaAEstrela extends Busca {
             heuristica.remove(atual);
             visitados.add(atual.getId());
 
-            atual = buscaProximo();
+            atual = buscaNoMenorHeuristica(heuristica);
 
         }
     }
@@ -41,28 +38,9 @@ public class BuscaAEstrela extends Busca {
     }
 
 
-    private No buscaProximo() {
-        No noMinimo = null;
-        double heuristicaMinima = Double.MAX_VALUE;
-
-        for (Map.Entry<No, Double> entry :heuristica.entrySet()) {
-
-            No no = entry.getKey();
-            double valorHeuristica = heuristica(no, objetivo);
-
-            if(valorHeuristica < heuristicaMinima){
-                noMinimo = no;
-                heuristicaMinima = valorHeuristica;
-            }
-        }
-
-        return  noMinimo;
-    }
-
     private void enfileirar(No atual) {
 
         if(!atual.getArestas().isEmpty()){
-            patamarAtual++;
 
             for (Map.Entry<String, No> entry : atual.getArestas().entrySet()) {
                 boolean aberto = abertos.contains(entry.getKey());

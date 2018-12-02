@@ -1,4 +1,5 @@
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 public abstract  class Busca {
@@ -74,6 +75,24 @@ public abstract  class Busca {
         value = value * factor;
         long tmp = Math.round(value);
         return (double) tmp / factor;
+    }
+
+    protected No buscaNoMenorHeuristica(Map<No, Double> nos){
+        No noMinimo = null;
+        double valorMinimo = Double.MAX_VALUE;
+
+        for (Map.Entry<No, Double> entry : nos.entrySet()) {
+
+            No no = entry.getKey();
+            double valor = heuristica(no, objetivo);
+
+            if(valor < valorMinimo){
+                noMinimo = no;
+                valorMinimo = valor;
+            }
+        }
+
+        return  noMinimo;
     }
 
     protected abstract boolean busca(No atual);
