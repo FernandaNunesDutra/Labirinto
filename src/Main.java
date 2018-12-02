@@ -17,6 +17,8 @@ public class Main {
         busca.numeroAbertos();
         busca.nosAbertos();
         busca.tempoExecucao();
+        busca.valorMedioRam();
+        busca.getCusto();
     }
 
 }

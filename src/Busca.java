@@ -1,7 +1,4 @@
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public abstract  class Busca {
 
@@ -121,4 +118,32 @@ public abstract  class Busca {
         System.out.println(inicial.getId());
     }
 
+    protected void getCusto(){
+
+        int custo = 0;
+        String noId = objetivo.getId();
+
+        while (!noId.equals(inicial.getId())){
+            noId = pais.get(noId);
+            custo++;
+        }
+
+        System.out.printf("\nCusto: %d", custo);
+    }
+
+    protected void valorMedioRam(){
+        int contFilhos = 0;
+        ArrayList<String> listaFilhos = new ArrayList<>();
+
+        for(String no: visitados){
+            int noInt = Integer.parseInt(no);
+            if(contFilhos < noInt){
+                contFilhos = noInt;
+                listaFilhos.add(no);
+            }
+
+        }
+
+        System.out.println("Valor Médio de Ramificação: " + (contFilhos/listaFilhos.size()));
+    }
 }
