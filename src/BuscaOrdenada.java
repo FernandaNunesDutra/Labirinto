@@ -1,15 +1,60 @@
+import java.util.HashMap;
+import java.util.Map;
+
 public class BuscaOrdenada extends Busca {
+
+    private Map<No, Double> pesoCaminho = new HashMap<>();
+    private Map<No, No> caminho = new HashMap<>();
+
     BuscaOrdenada(No inicial, No objetivo) {
         super(inicial, objetivo);
+
+        pesoCaminho.put(inicial, 0.0);
     }
+
 
     @Override
     protected boolean busca(No atual) {
-        return false;
+        while (true) {
+
+            if (atual == null)
+                return false;
+
+            if(atual == objetivo)
+                return true;
+
+            enfileirar(atual);
+
+            pesoCaminho.remove(atual);
+            visitados.add(atual.getId());
+
+            atual = buscaNoMenorHeuristica(pesoCaminho);
+
+        }
     }
 
-    @Override
-    protected void caminho() {
 
+    @Override
+    protected void caminho(){
+        System.out.println(caminho);
+    }
+
+    private void enfileirar(No atual) {
+
+        profundidade++;
+
+        if(!atual.getArestas().isEmpty()){
+
+            for (Map.Entry<String, No> entry : atual.getArestas().entrySet()) {
+                boolean aberto = abertos.contains(entry.getKey());
+
+                if (!aberto) {
+                    Double totalCaminho = pesoCaminho.get(atual.getId()) + 1;
+                    pesoCaminho.put(entry.getValue(), totalCaminho);
+                    pais.put(entry.getKey(), atual.getId());
+                    abertos.add(entry.getKey());
+                }
+            }
+        }
     }
 }

@@ -26,6 +26,8 @@ class Backtracking extends Busca{
                 return false;
 
             proximo = pilha.pop();
+            profundidade--;
+
             System.out.println("back");
 
         } else {
@@ -45,6 +47,8 @@ class Backtracking extends Busca{
     }
 
     private No buscaProximo(No atual){
+
+        profundidade++;
 
         Map<String, No> treeMap = new TreeMap<>(atual.getArestas());
 

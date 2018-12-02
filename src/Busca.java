@@ -1,12 +1,15 @@
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 public abstract  class Busca {
 
-    private long inicio;
-    private long fim;
+    int profundidade;
+    long inicio;
+    long fim;
 
+    Map<String, String> pais = new HashMap<>();
     Set<String> visitados = new HashSet<>();
     Set<String> abertos = new HashSet<>();
     No objetivo;
@@ -68,7 +71,7 @@ public abstract  class Busca {
         System.out.printf("\nFim: %s", objetivo.getId());
     }
 
-    protected double round(double value, int places) {
+    double round(double value, int places) {
         if (places < 0) throw new IllegalArgumentException();
 
         long factor = (long) Math.pow(10, places);
@@ -77,7 +80,10 @@ public abstract  class Busca {
         return (double) tmp / factor;
     }
 
-    protected No buscaNoMenorHeuristica(Map<No, Double> nos){
+     No buscaNoMenorHeuristica(Map<No, Double> nos){
+
+        if(nos.isEmpty()) return null;
+
         No noMinimo = null;
         double valorMinimo = Double.MAX_VALUE;
 
@@ -95,8 +101,24 @@ public abstract  class Busca {
         return  noMinimo;
     }
 
+
+    protected void getProfundidade(){
+        System.out.printf("\nProfundidade: %s", profundidade);
+    }
+
     protected abstract boolean busca(No atual);
 
-    protected abstract void caminho();
+    protected void caminho(){
+        System.out.println("\nCaminho:");
+
+        String noId = objetivo.getId();
+
+        while (!noId.equals(inicial.getId())){
+            System.out.println(noId);
+            noId = pais.get(noId);
+        }
+
+        System.out.println(inicial.getId());
+    }
 
 }

@@ -68,6 +68,8 @@ class BuscaIDAEstrela extends Busca{
 
     private No buscaProximo(No atual){
 
+        profundidade++;
+
         Map<String, No> treeMap = new TreeMap<>(atual.getArestas());
 
         for(Map.Entry<String,No> entry : treeMap.entrySet()) {
@@ -79,6 +81,7 @@ class BuscaIDAEstrela extends Busca{
             if(!visitado && !descartado){
                 Double totalCaminho = pesoCaminho.get(atual.getId()) + 1;
                 pesoCaminho.put(entry.getKey(), totalCaminho);
+                pais.put(entry.getKey(), atual.getId());
                 return entry.getValue();
             }
         }

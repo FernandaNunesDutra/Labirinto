@@ -2,10 +2,8 @@ import java.util.*;
 
 public class BuscaProfundidade extends Busca {
 
-    private Stack<No> pilha = new Stack<>();
-    private int profundidade;
     private int profundidadeAtual;
-
+    private Stack<No> pilha = new Stack<>();
 
     BuscaProfundidade(No inicial, No objetivo, int profundidade) {
         super(inicial, objetivo);

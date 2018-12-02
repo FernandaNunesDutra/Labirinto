@@ -2,7 +2,6 @@ import java.util.*;
 
 public class BuscaAEstrela extends Busca {
 
-    private Map<No, No> caminho = new HashMap<>();
     private Map<No, Double> heuristica = new HashMap<>();
     private Map<String, Double> pesoCaminho = new HashMap<>();
 
@@ -11,7 +10,6 @@ public class BuscaAEstrela extends Busca {
 
         pesoCaminho.put(inicial.getId(), 0.0);
     }
-
 
     @Override
     protected boolean busca(No atual) {
@@ -32,32 +30,6 @@ public class BuscaAEstrela extends Busca {
         }
     }
 
-    @Override
-    protected void caminho() {
-        System.out.println("Caminho:");
-
-        Stack<No> pilhaAux = new Stack<>();
-
-        No auxNo=objetivo;
-
-        while(auxNo!=null){
-
-            pilhaAux.push(auxNo);
-
-            auxNo = caminho.get(auxNo);
-
-            if(auxNo==inicial){
-                pilhaAux.push(auxNo);
-                auxNo=null;
-            }
-
-        }
-
-        System.out.println(pilhaAux);
-
-    }
-
-
     private void enfileirar(No atual) {
 
         if(!atual.getArestas().isEmpty()){
@@ -71,7 +43,7 @@ public class BuscaAEstrela extends Busca {
 
                     heuristica.put(entry.getValue(), round(totalHeuristica, 2));
                     pesoCaminho.put(entry.getValue().getId(), totalCaminho);
-                    caminho.put(entry.getValue(), atual);
+                    pais.put(entry.getKey(), atual.getId());
                     abertos.add(entry.getKey());
                 }
             }

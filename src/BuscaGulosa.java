@@ -2,86 +2,50 @@ import java.util.*;
 
 public class BuscaGulosa  extends Busca {
 
-    private int DimensaoX, DimensaoY;
-    private Stack<No> guloso = new Stack<>();
-    private Map<String, Double> valorHeuristica = new HashMap<>();
+    private Map<No, Double> guloso= new HashMap<>();
 
-    BuscaGulosa(No inicial, No objetivo, int DimensaoX, int DimensaoY) {
-
+    BuscaGulosa(No inicial, No objetivo) {
         super(inicial, objetivo);
-        this.DimensaoX = DimensaoX;
-        this.DimensaoY = DimensaoY;
     }
+
 
     @Override
     protected boolean busca(No atual) {
+        while (true) {
 
-        if (atual == null) {
+            if (atual == null)
+                return false;
 
-            return false;
-        } else if (atual == objetivo) {
-            return true;
+            if(atual == objetivo)
+                return true;
 
-        } else {
-            abertos.add(atual.getId());
-            empilhar(atual);
+            enfileirar(atual);
+            guloso.remove(atual);
+            visitados.add(atual.getId());
 
-            atual = buscaProximo(atual);
-
-            return busca(atual);
+            atual = buscaNoMenorHeuristica(guloso);
 
         }
-
     }
 
-    @Override
-    protected void caminho() {
-        System.out.println("Caminho:");
-        System.out.println(guloso);
-    }
+    private void enfileirar(No atual) {
 
-    private No buscaProximo(No atual) {
-        double min = Double.MAX_VALUE;
-        if (guloso.isEmpty()){
-            return null;}
-        else {
+        profundidade++;
 
-            if (atual.getArestas().size() == 0) {
-
-                return null;
-            }
+        if(!atual.getArestas().isEmpty()){
 
             for (Map.Entry<String, No> entry : atual.getArestas().entrySet()) {
-                double valor = valorHeuristica.get(entry.getKey());
-                if (valor < min) {
-                    min = valor;
+                boolean aberto = abertos.contains(entry.getKey());
 
+                if (!aberto) {
+                    Double totalguloso = heuristica(atual, objetivo);
+
+                    guloso.put(entry.getValue(), round(totalguloso, 2));
+                    pais.put(entry.getKey(), atual.getId());
+                    abertos.add(entry.getKey());
                 }
-
             }
-
-            return atual;
         }
-    }
-
-
-    private void empilhar(No atual) {
-        List<No> adjacentes = new ArrayList<>();
-
-    }
-
-
-    private void calculaHeuristica(No objetivo) {
-
-//        for (int i = 0; i < DimensaoX; i++) {
-//            for (int j = 0; j < DimensaoY; j++) {
-//                //String id = String.format("%d%d", i+1, j+1);
-//                No no = Main.labirinto[i][j];
-//                double dist = heuristica(no, objetivo);
-//                valorHeuristica.put(no.getId(), dist);
-//            }
-//        }
-
     }
 
 }
