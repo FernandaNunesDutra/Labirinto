@@ -12,7 +12,8 @@ class BuscaIDAEstrela extends Busca{
     BuscaIDAEstrela(No inicial, No objetivo) {
         super(inicial, objetivo);
         pesoCaminho.put(inicial.getId(),0.0);
-        patamar = heuristica(inicial, objetivo) ;
+        patamar = heuristica(inicial, objetivo);
+        abertos.add(inicial.getId());
     }
 
     @Override
@@ -82,6 +83,7 @@ class BuscaIDAEstrela extends Busca{
                 Double totalCaminho = pesoCaminho.get(atual.getId()) + 1;
                 pesoCaminho.put(entry.getKey(), totalCaminho);
                 pais.put(entry.getKey(), atual.getId());
+                abertos.add(entry.getKey());
                 return entry.getValue();
             }
         }

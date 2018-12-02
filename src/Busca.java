@@ -132,18 +132,10 @@ public abstract  class Busca {
     }
 
     protected void valorMedioRam(){
-        int contFilhos = 0;
-        ArrayList<String> listaFilhos = new ArrayList<>();
 
-        for(String no: visitados){
-            int noInt = Integer.parseInt(no);
-            if(contFilhos < noInt){
-                contFilhos = noInt;
-                listaFilhos.add(no);
-            }
+        int ramificacao = (visitados.size() + abertos.size())/ visitados.size();
 
-        }
-
-        System.out.println("Valor Médio de Ramificação: " + (contFilhos/listaFilhos.size()));
+        System.out.println("\nValor Médio de Ramificação: " + ramificacao);
     }
+
 }

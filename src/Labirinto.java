@@ -3,11 +3,11 @@ import java.util.Random;
 class Labirinto {
 
     private static int RANDOM = 101;
-    private static int DIMENSAOX = 10;
-    private static int DIMENSAOY = 10;
-    private static No[][] labirinto = new No[DIMENSAOX][DIMENSAOY];
+//    private static int DIMENSAOX = 10;
+//    private static int DIMENSAOY = 10;
+    private static No[][] labirinto;
 
-     static No[][] montaLabirinto() {
+     static No[][] montaLabirinto(int DIMENSAOX, int DIMENSAOY) {
 
         labirinto = new No[DIMENSAOX][DIMENSAOY];
 
