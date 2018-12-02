@@ -1,24 +1,18 @@
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Stack;
-import java.util.TreeMap;
+import java.util.*;
 
 class BuscaIDAEstrela extends Busca{
 
     private Stack<No> pilha = new Stack<>();
     private Map<No, Double> descartados = new HashMap<>();
+    private Set<String> nosDescartados = new HashSet<>();
 
-
-    private Stack<Double> pilhaFechado = new Stack<>();
     private Map<String, Double> pesoCaminho = new TreeMap<>();
     private Double patamar;
-    private Double patamar_old=-1.0;
 
     BuscaIDAEstrela(No inicial, No objetivo) {
         super(inicial, objetivo);
         pesoCaminho.put(inicial.getId(),0.0);
-        patamar = heuristica(inicial, objetivo);
-
+        patamar = heuristica(inicial, objetivo) ;
     }
 
     @Override
@@ -31,14 +25,15 @@ class BuscaIDAEstrela extends Busca{
 
             if(patamarAtual > patamar){
 
-                if(descartados.isEmpty()) return false;
-
                 if(pilha.isEmpty()){
                     proximo = buscaNoMenorHeuristica(descartados);
                 }else{
-                    descartados.put(atual, patamarAtual);
                     proximo =  pilha.pop();
                 }
+
+                nosDescartados.add(atual.getId());
+                descartados.put(atual, patamarAtual);
+                patamar = heuristica(proximo, objetivo)  + pesoCaminho.get(atual.getId());
 
             }else{
 
@@ -78,7 +73,12 @@ class BuscaIDAEstrela extends Busca{
         for(Map.Entry<String,No> entry : treeMap.entrySet()) {
             String key = entry.getKey();
 
-            if(!visitados.contains(key)){
+            boolean visitado = visitados.contains(key);
+            boolean descartado = nosDescartados.contains(key);
+
+            if(!visitado && !descartado){
+                Double totalCaminho = pesoCaminho.get(atual.getId()) + 1;
+                pesoCaminho.put(entry.getKey(), totalCaminho);
                 return entry.getValue();
             }
         }

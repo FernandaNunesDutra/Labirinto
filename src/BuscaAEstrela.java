@@ -6,7 +6,7 @@ public class BuscaAEstrela extends Busca {
     private Map<No, Double> heuristica = new HashMap<>();
     private Map<String, Double> pesoCaminho = new HashMap<>();
 
-    BuscaAEstrela(No inicial, No objetivo, int patamar) {
+    BuscaAEstrela(No inicial, No objetivo) {
         super(inicial, objetivo);
 
         pesoCaminho.put(inicial.getId(), 0.0);
@@ -49,8 +49,8 @@ public class BuscaAEstrela extends Busca {
                     Double totalCaminho = pesoCaminho.get(atual.getId()) + 1;
                     Double totalHeuristica = heuristica(atual, objetivo) + totalCaminho;
 
-                    pesoCaminho.put(entry.getValue().getId(), totalCaminho);
                     heuristica.put(entry.getValue(), round(totalHeuristica, 2));
+                    pesoCaminho.put(entry.getValue().getId(), totalCaminho);
                     abertos.add(entry.getKey());
                 }
             }

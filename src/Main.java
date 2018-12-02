@@ -5,9 +5,9 @@ public class Main {
         No[][] labirinto = Labirinto.montaLabirinto();
 
         No inicio = labirinto[0][0];
-        No fim = labirinto[499][499];
+        No fim = labirinto[5][5];
 
-        Busca busca = new BuscaAEstrela(inicio, fim, Integer.MAX_VALUE);
+        Busca busca = new BuscaIDAEstrela(inicio, fim);
         busca.getInicial();
         busca.getFinal();
         busca.inicia();
