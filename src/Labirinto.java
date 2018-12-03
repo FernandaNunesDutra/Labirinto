@@ -14,7 +14,7 @@ class Labirinto {
         labirinto[2][0] = new No("C", 2, 0);
         labirinto[3][0] = new No("D", 3, 0);
         labirinto[4][0] = new No("E", 4, 0);
-        labirinto[0][1] = new No("F", 0, 0);
+        labirinto[0][1] = new No("F", 0, 1);
         labirinto[1][1] = new No("G", 1, 1);
         labirinto[2][1] = new No("H", 2, 1);
         labirinto[3][1] = new No("I", 3, 1);

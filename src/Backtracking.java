@@ -1,3 +1,4 @@
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
 import java.util.TreeMap;
@@ -13,6 +14,8 @@ class Backtracking extends Busca{
     @Override
     protected boolean busca(No atual){
         System.out.println(atual.getId());
+
+        pais.put(atual.getId(), "-1");
 
         while(true){
             if(atual == objetivo)
@@ -35,6 +38,7 @@ class Backtracking extends Busca{
             } else {
 
                 pilha.push(atual);
+                pais.put(proximo.getId(), atual.getId());
 
             }
 
@@ -43,11 +47,6 @@ class Backtracking extends Busca{
 
     }
 
-    @Override
-    protected void caminho() {
-        System.out.println("Caminho:");
-        System.out.println(pilha);
-    }
 
     private No buscaProximo(No atual){
 
@@ -59,8 +58,6 @@ class Backtracking extends Busca{
             String key = entry.getKey();
 
             if(!abertos.contains(key)){
-
-                pais.put(entry.getKey(), atual.getId());
                 return entry.getValue();
             }
 

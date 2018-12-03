@@ -15,6 +15,14 @@ public abstract  class Busca {
     Busca(No inicial, No objetivo) {
         this.objetivo = objetivo;
         this.inicial = inicial;
+
+        inicio = 0;
+        fim = 0;
+        profundidade = 0;
+
+        pais.clear();
+        visitados.clear();
+        abertos.clear();
     }
 
     protected void inicia(){
@@ -102,7 +110,7 @@ public abstract  class Busca {
         System.out.println(inicial.getId());
     }
 
-    protected void getCusto(){
+    protected int getCusto(){
 
         int custo = 0;
         String noId = objetivo.getId();
@@ -113,6 +121,8 @@ public abstract  class Busca {
         }
 
         System.out.printf("\nCusto: %d", custo);
+
+        return custo;
     }
 
     protected void valorMedioRam(){

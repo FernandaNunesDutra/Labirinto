@@ -31,13 +31,12 @@ public class BuscaLargura extends Busca {
 
         No no = fila.remove();
 
-        if(visitados.contains(no)) profundidade--;
-
         return no;
     }
 
+
+
     private void enfileirar(No atual) {
-        profundidade++;
 
         Map<String, No> adjacentes = new TreeMap<>(atual.getArestas());
 
@@ -52,5 +51,10 @@ public class BuscaLargura extends Busca {
                 pais.put(entry.getKey(), atual.getId());
             }
         }
+    }
+
+    @Override
+    protected void getProfundidade(){
+        System.out.printf("\nProfundidade: %s",  getCusto());
     }
 }

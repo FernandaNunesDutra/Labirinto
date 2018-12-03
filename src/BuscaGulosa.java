@@ -28,9 +28,12 @@ public class BuscaGulosa  extends Busca {
         }
     }
 
-    private void enfileirar(No atual) {
+    @Override
+    protected void getProfundidade(){
+        System.out.printf("\nProfundidade: %s",  getCusto());
+    }
 
-        profundidade++;
+    private void enfileirar(No atual) {
 
         if(!atual.getArestas().isEmpty()){
 
@@ -38,7 +41,7 @@ public class BuscaGulosa  extends Busca {
                 boolean aberto = abertos.contains(entry.getKey());
 
                 if (!aberto) {
-                    Double totalguloso = heuristica(atual, objetivo);
+                    Double totalguloso = heuristica(entry.getValue(), objetivo);
 
                     guloso.put(entry.getValue(), round(totalguloso, 2));
                     pais.put(entry.getKey(), atual.getId());

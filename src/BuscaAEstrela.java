@@ -41,7 +41,7 @@ public class BuscaAEstrela extends Busca {
 
                 if (!aberto) {
                     Double totalCaminho = pesoCaminho.get(atual.getId()) + 1;
-                    Double totalHeuristica = heuristica(atual, objetivo) + totalCaminho;
+                    Double totalHeuristica = heuristica(entry.getValue(), objetivo) + totalCaminho;
 
                     heuristica.put(entry.getValue(), round(totalHeuristica, 2));
                     pesoCaminho.put(entry.getValue().getId(), totalCaminho);

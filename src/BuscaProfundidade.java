@@ -2,13 +2,12 @@ import java.util.*;
 
 public class BuscaProfundidade extends Busca {
 
-    private int profundidadeAtual;
+    private int profundidadeMaxima;
     private Stack<No> pilha = new Stack<>();
 
     BuscaProfundidade(No inicial, No objetivo, int profundidade) {
         super(inicial, objetivo);
-        this.profundidadeAtual = 0;
-        this.profundidade = profundidade;
+        this.profundidadeMaxima = profundidade;
     }
 
     @Override
@@ -36,19 +35,13 @@ public class BuscaProfundidade extends Busca {
         }
     }
 
-    @Override
-    protected void caminho() {
-        System.out.println("Caminho:");
-        System.out.println(pilha);
-    }
-
     private No buscaProximo(){
         if (pilha.isEmpty())
             return null;
 
         No no = pilha.pop();
         if(visitados.contains(no.getId())){
-            profundidadeAtual--;
+            profundidade--;
         }
 
         return no;
@@ -56,12 +49,12 @@ public class BuscaProfundidade extends Busca {
 
     private void empilha(No atual){
 
-        if(profundidadeAtual == profundidade)
+        if(profundidade == profundidadeMaxima)
             return;
 
         Map<String, No> adjacentes = new TreeMap<>(Collections.reverseOrder());
         adjacentes.putAll(atual.getArestas());
-        profundidadeAtual++;
+        profundidade++;
 
         for(Map.Entry<String,No> entry : adjacentes.entrySet()) {
 
@@ -70,6 +63,7 @@ public class BuscaProfundidade extends Busca {
 
             if(!empilhado && !aberto){
                 pilha.push(entry.getValue());
+                pais.put(entry.getKey(), atual.getId());
                 abertos.add(entry.getKey());
             }
         }
