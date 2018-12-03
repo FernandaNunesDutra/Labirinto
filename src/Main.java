@@ -1,30 +1,37 @@
+import org.omg.CORBA.INTERNAL;
+
 public class Main {
 
     public static void main(String[] args) {
 
-        int DIMENSAOX = 5;
-        int DIMENSAOY = 5;
+        int DIMENSAOX = 100;
+        int DIMENSAOY = 100;
 
-        //No[][] labirinto = Labirinto.montaLabirinto(DIMENSAOX, DIMENSAOY);
-        No[][] labirinto =  Labirinto.montaLabirintoTeste();
+        No[][] labirinto = Labirinto.montaLabirinto(DIMENSAOX, DIMENSAOY);
+        //No[][] labirinto =  Labirinto.montaLabirintoTeste();
 
         No inicio = labirinto[0][0];
-        No fim = labirinto[2][3];
+        No fim = labirinto[32][27];
 
-        System.out.printf("\nGULOSA");
-        Busca busca4 = new BuscaGulosa(inicio, fim);
-        busca4.inicia();
-        busca4.getInicial();
-        busca4.getFinal();
-        busca4.caminho();
-        busca4.numeroVisitados();
-        busca4.nosVisitados();
-        busca4.numeroAbertos();
-        busca4.nosAbertos();
-        busca4.tempoExecucao();
-        busca4.valorMedioRam();
-        busca4.getCusto();
-        busca4.getProfundidade();
-        System.out.printf("\n------------------------------------------------------------------------------------------------------------\n");    }
+        System.out.println(DIMENSAOX);
+        System.out.println(DIMENSAOY);
+
+
+        System.out.printf("\nIDA*");
+        Busca busca7 = new BuscaIDAEstrela(inicio, fim);
+        busca7.inicia();
+        busca7.getInicial();
+        busca7.getFinal();
+//busca7.caminho();
+        busca7.numeroVisitados();
+//busca7.nosVisitados();
+        busca7.numeroAbertos();
+//busca7.nosAbertos();
+        busca7.tempoExecucao();
+        busca7.valorMedioRam();
+        busca7.getCusto();
+        busca7.getProfundidade();
+
+    }
 
 }

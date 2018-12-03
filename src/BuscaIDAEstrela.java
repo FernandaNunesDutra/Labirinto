@@ -1,63 +1,98 @@
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Stack;
+import java.util.TreeMap;
 
 class BuscaIDAEstrela extends Busca{
 
-    private Stack<No> pilha = new Stack<>();
-    private Map<No, Double> descartados = new HashMap<>();
-    private Set<String> nosDescartados = new HashSet<>();
-
-    private Map<String, Double> pesoCaminho = new TreeMap<>();
+    private static Stack<No> pilha = new Stack<>();
+    private static Stack<Double> descartados = new Stack<>();
+    private static Map<String, Double> pesoCaminho = new TreeMap<>();
+    private static int numeroArvores = 0;
     private Double patamar;
 
     BuscaIDAEstrela(No inicial, No objetivo) {
         super(inicial, objetivo);
-        pesoCaminho.put(inicial.getId(),0.0);
-        patamar = heuristica(inicial, objetivo);
-        abertos.add(inicial.getId());
+        patamar = round(heuristica(inicial, objetivo), 2);
+
     }
 
     @Override
+    protected void inicia(){
+
+        inicio = System.currentTimeMillis();
+        boolean resultadoBusca=false;
+        while(resultadoBusca==false && patamar!=-1.0 ){
+            numeroArvores++;
+
+            pesoCaminho.put(inicial.getId(),0.0);
+            resultadoBusca = busca(inicial);
+            if(resultadoBusca==false){
+
+                patamar = getMin();
+                pilha.clear();
+                descartados.clear();
+                pesoCaminho.clear();
+                abertos.clear();
+            }
+        }
+        System.out.println("Numero de arvores: "+numeroArvores);
+        if(resultadoBusca){
+            System.out.println("Caminho encontrado.");
+        }else {
+            System.out.println("Caminho não encontrado.");
+        }
+
+        fim = System.currentTimeMillis();
+    }
+    private Double getMin(){
+        if(descartados.empty())
+            return -1.0;
+        Double aux,min = Double.POSITIVE_INFINITY;
+        while(!descartados.isEmpty()) {
+            aux = descartados.pop();
+
+            if(aux< min )
+                min = aux;
+
+        }
+        return min;
+    }
+    @Override
     protected boolean busca(No atual){
 
-        while(true){
+        while (true){
 
-            No proximo = null;
-            Double patamarAtual = heuristica(atual, objetivo) + pesoCaminho.get(atual.getId());
+            if(atual == null) return false;
 
-            if(patamarAtual > patamar){
+            Double totalHeuristica = round(heuristica(inicial, objetivo), 2) + pesoCaminho.get(atual.getId());
 
-                if(pilha.isEmpty()){
-                    proximo = buscaNoMenorHeuristica(descartados);
-                }else{
-                    proximo =  pilha.pop();
+            if(atual == objetivo && totalHeuristica<=patamar)
+                return true;
+
+            //abertos.add(atual.getId());
+            No proximo = buscaProximo(atual);
+            if(proximo == null || totalHeuristica>patamar){
+
+
+                if(pilha.empty())
+                    return false;
+                if(totalHeuristica>patamar){
+                    descartados.add(totalHeuristica);
                 }
+                proximo = pilha.pop();
 
-                nosDescartados.add(atual.getId());
-                descartados.put(atual, patamarAtual);
-                patamar = heuristica(proximo, objetivo)  + pesoCaminho.get(atual.getId());
+            } else {
 
-            }else{
-
-                if(atual == objetivo)
-                    return true;
-
+                pilha.push(atual);
                 visitados.add(atual.getId());
-                proximo = buscaProximo(atual);
+                pesoCaminho.put(proximo.getId(),(pesoCaminho.get(atual.getId())+1.0));
 
-                if(proximo == null){
-
-                    if(pilha.empty()) return false;
-
-                    proximo = pilha.pop();
-
-                } else {
-                    pilha.push(atual);
-                }
             }
 
             atual = proximo;
-
         }
+
     }
 
     @Override
@@ -66,26 +101,20 @@ class BuscaIDAEstrela extends Busca{
         System.out.println(pilha);
     }
 
-
     private No buscaProximo(No atual){
-
-        profundidade++;
 
         Map<String, No> treeMap = new TreeMap<>(atual.getArestas());
 
         for(Map.Entry<String,No> entry : treeMap.entrySet()) {
+
             String key = entry.getKey();
 
-            boolean visitado = visitados.contains(key);
-            boolean descartado = nosDescartados.contains(key);
-
-            if(!visitado && !descartado){
-                Double totalCaminho = pesoCaminho.get(atual.getId()) + 1;
-                pesoCaminho.put(entry.getKey(), totalCaminho);
-                pais.put(entry.getKey(), atual.getId());
-                abertos.add(entry.getKey());
+            if(!abertos.contains(key)){
+                abertos.add(atual.getId());
+                //pais.put(key, atual.getId());
                 return entry.getValue();
             }
+
         }
 
         return null;

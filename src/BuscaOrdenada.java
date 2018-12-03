@@ -1,17 +1,14 @@
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class BuscaOrdenada extends Busca {
 
     private Map<No, Double> pesoCaminho = new HashMap<>();
-    private Map<No, No> caminho = new HashMap<>();
 
     BuscaOrdenada(No inicial, No objetivo) {
         super(inicial, objetivo);
 
         pesoCaminho.put(inicial, 0.0);
     }
-
 
     @Override
     protected boolean busca(No atual) {
@@ -28,9 +25,29 @@ public class BuscaOrdenada extends Busca {
             pesoCaminho.remove(atual);
             visitados.add(atual.getId());
 
-            atual = buscaNoMenorHeuristica(pesoCaminho);
+            atual = buscaNoMenorCaminho();
 
         }
+    }
+
+
+    No buscaNoMenorCaminho(){
+
+        No noMinimo = null;
+        double valorMinimo = Double.MAX_VALUE;
+
+        for (Map.Entry<No, Double> entry : pesoCaminho.entrySet()) {
+
+            No no = entry.getKey();
+            double valor = heuristica(no, objetivo);
+
+            if(valor < valorMinimo){
+                noMinimo = no;
+                valorMinimo = valor;
+            }
+        }
+
+        return  noMinimo;
     }
 
     private void enfileirar(No atual) {
