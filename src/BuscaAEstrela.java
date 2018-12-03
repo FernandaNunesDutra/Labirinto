@@ -32,6 +32,8 @@ public class BuscaAEstrela extends Busca {
 
     private void enfileirar(No atual) {
 
+        profundidade++;
+
         if(!atual.getArestas().isEmpty()){
 
             for (Map.Entry<String, No> entry : atual.getArestas().entrySet()) {

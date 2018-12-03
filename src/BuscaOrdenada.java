@@ -33,12 +33,6 @@ public class BuscaOrdenada extends Busca {
         }
     }
 
-
-    @Override
-    protected void caminho(){
-        System.out.println(caminho);
-    }
-
     private void enfileirar(No atual) {
 
         profundidade++;
@@ -49,7 +43,7 @@ public class BuscaOrdenada extends Busca {
                 boolean aberto = abertos.contains(entry.getKey());
 
                 if (!aberto) {
-                    Double totalCaminho = pesoCaminho.get(atual.getId()) + 1;
+                    Double totalCaminho = pesoCaminho.get(atual) + 1;
                     pesoCaminho.put(entry.getValue(), totalCaminho);
                     pais.put(entry.getKey(), atual.getId());
                     abertos.add(entry.getKey());

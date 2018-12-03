@@ -60,22 +60,6 @@ public abstract  class Busca {
         return euclideana;
     }
 
-    void getInicial(){
-        System.out.printf("\nInício: %s", inicial.getId());
-    }
-
-    void getFinal(){
-        System.out.printf("\nFim: %s", objetivo.getId());
-    }
-
-    double round(double value, int places) {
-        if (places < 0) throw new IllegalArgumentException();
-
-        long factor = (long) Math.pow(10, places);
-        value = value * factor;
-        long tmp = Math.round(value);
-        return (double) tmp / factor;
-    }
 
      No buscaNoMenorHeuristica(Map<No, Double> nos){
 
@@ -110,7 +94,7 @@ public abstract  class Busca {
 
         String noId = objetivo.getId();
 
-        while (!noId.equals(inicial.getId())){
+        while (noId!=null && !noId.equals(inicial.getId())){
             System.out.println(noId);
             noId = pais.get(noId);
         }
@@ -123,7 +107,7 @@ public abstract  class Busca {
         int custo = 0;
         String noId = objetivo.getId();
 
-        while (!noId.equals(inicial.getId())){
+        while (noId != null && !noId.equals(inicial.getId())){
             noId = pais.get(noId);
             custo++;
         }
@@ -138,4 +122,20 @@ public abstract  class Busca {
         System.out.println("\nValor Médio de Ramificação: " + ramificacao);
     }
 
+    void getInicial(){
+        System.out.printf("\nInício: %s", inicial.getId());
+    }
+
+    void getFinal(){
+        System.out.printf("\nFim: %s", objetivo.getId());
+    }
+
+    double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        long factor = (long) Math.pow(10, places);
+        value = value * factor;
+        long tmp = Math.round(value);
+        return (double) tmp / factor;
+    }
 }

@@ -14,29 +14,32 @@ class Backtracking extends Busca{
     protected boolean busca(No atual){
         System.out.println(atual.getId());
 
-        if(atual == objetivo)
-            return true;
+        while(true){
+            if(atual == objetivo)
+                return true;
 
-        abertos.add(atual.getId());
-        No proximo = buscaProximo(atual);
+            abertos.add(atual.getId());
+            visitados.add(atual.getId());
+            No proximo = buscaProximo(atual);
 
-        if(proximo == null){
+            if(proximo == null){
 
-            if(pilha.empty())
-                return false;
+                if(pilha.empty())
+                    return false;
 
-            proximo = pilha.pop();
-            profundidade--;
+                proximo = pilha.pop();
+                profundidade--;
 
-            System.out.println("back");
+                //System.out.println("back");
 
-        } else {
+            } else {
 
-            pilha.push(atual);
+                pilha.push(atual);
 
+            }
+
+            atual = proximo;
         }
-
-        return busca(proximo);
 
     }
 
@@ -55,8 +58,9 @@ class Backtracking extends Busca{
         for(Map.Entry<String,No> entry : treeMap.entrySet()) {
             String key = entry.getKey();
 
-            if(abertos.contains(key)){
+            if(!abertos.contains(key)){
 
+                pais.put(entry.getKey(), atual.getId());
                 return entry.getValue();
             }
 
